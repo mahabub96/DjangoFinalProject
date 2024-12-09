@@ -124,6 +124,7 @@
 
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -149,14 +150,15 @@ INSTALLED_APPS = [
     'auction_items',# Auction items
     'bids',         # Bidding system
     'payments',     # Payment integration
-    'notifications',# Notification system
-    'logs',         # Activity logging
-    'files',        # File uploads
+   # 'notifications',# Notification system
+   # 'logs',         # Activity logging
+   # 'files',        # File uploads
     'categories',   # Auction item categories
-    'admins',
-    'transactions',        
+   # 'admins',
+   # 'transactions',        
     'rest_framework',  # Django REST framework
     'rest_framework_simplejwt',  # SimpleJWT for authentication
+    'rest_framework_simplejwt.token_blacklist',
     'django_celery_results',  # To store results of Celery tasks
 ]
 
@@ -198,15 +200,28 @@ DATABASES = {
     }
 }
 
-# REST Framework settings
+# settings.py for REST
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Use JWT as primary authentication
+        'rest_framework.authentication.SessionAuthentication',         # Fallback to session-based authentication
+        'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # or other permissions like IsAdminUser, etc.
-    ],
+        'rest_framework.permissions.IsAuthenticated',
+    ], 
 }
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Token expires in 5 minutes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Refresh token expires in 1 day
+    'ROTATE_REFRESH_TOKENS': True,                    # Rotate refresh tokens on every refresh request
+    'BLACKLIST_AFTER_ROTATION': True,                  # Blacklist old refresh tokens
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'TOKEN_OBTAIN_SERIALIZER' : 'user.serializers.CustomClaimTokenObtainSerializer',
+}
+
 
 # Celery Configuration
 CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as broker

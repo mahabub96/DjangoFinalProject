@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Auction Items</title>
+</head>
+<body>
+    <h1>Auction Items</h1>
+    <ul>
+        {% for item in items %}
+            <li>
+                <a href="{% url 'auction_item_detail' item.id %}">{{ item.title }}</a>
+                - {{ item.current_price }} USD
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

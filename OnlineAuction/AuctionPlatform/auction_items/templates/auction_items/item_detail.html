@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ item.title }}</title>
+</head>
+<body>
+    <h1>{{ item.title }}</h1>
+    <p>{{ item.description }}</p>
+    <p>Current Price: {{ item.current_price }} USD</p>
+    <p>End Date: {{ item.end_date }}</p>
+
+    <h2>Place a Bid</h2>
+    <form id="bid-form" method="POST">
+        <input type="number" name="bid_amount" required>
+        <button type="submit">Place Bid</button>
+    </form>
+</body>
+</html>
