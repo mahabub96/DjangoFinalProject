@@ -9,6 +9,7 @@ class AuctionItem(models.Model):
     starting_price = models.DecimalField(max_digits=10, decimal_places=2)  # Starting price
     current_price = models.DecimalField(max_digits=10, decimal_places=2)  # Current price
     end_date = models.DateTimeField()  # Auction end date
+    is_sold = models.BooleanField(default=False)  # Track if the item is sold ext
     category = models.ForeignKey(Category, on_delete=models.CASCADE)  # Category (Foreign Key)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='auction_items')  # Seller (Foreign Key)
     created_at = models.DateTimeField(auto_now_add=True)  # Date created

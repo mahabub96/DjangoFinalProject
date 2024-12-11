@@ -25,6 +25,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,14 +35,17 @@ urlpatterns = [
     path('auction-items/', include('auction_items.urls')),  # URLs for the 'auction_items' app
     path('bids/', include('bids.urls')),                # URLs for the 'bids' app
     path('payments/', include('payments.urls')),        # URLs for the 'payments' app
-   # path('notifications/', include('notifications.urls')),  # URLs for the 'notifications' app
-   # path('logs/', include('logs.urls')),                # URLs for the 'logs' app
-   # path('files/', include('files.urls')),              # URLs for the 'files' app
+    path('notifications/', include('notifications.urls')),  # URLs for the 'notifications' app
+    path('logs/', include('logs.urls')),                # URLs for the 'logs' app
+    path('files/', include('files.urls')),              # URLs for the 'files' app
     path('categories/', include('categories.urls')),    # URLs for the 'categories' app
-   # path('transactions/', include('transactions.urls')),# URLs for the 'transactions' app
+    path('transactions/', include('transactions.urls')),# URLs for the 'transactions' app
     
     # Add authentication endpoints for REST API (JWT)
     #path('api/token/', include('rest_framework_simplejwt.urls')),  
+    
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
 ]
 
 # Serve static and media files during development
