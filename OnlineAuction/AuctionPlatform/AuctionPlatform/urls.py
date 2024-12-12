@@ -40,7 +40,8 @@ urlpatterns = [
     path('files/', include('files.urls')),              # URLs for the 'files' app
     path('categories/', include('categories.urls')),    # URLs for the 'categories' app
     path('transactions/', include('transactions.urls')),# URLs for the 'transactions' app
-    
+    path('admins/', include('admins.urls')),
+
     # Add authentication endpoints for REST API (JWT)
     #path('api/token/', include('rest_framework_simplejwt.urls')),  
     

@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'logs',         # Activity logging
     'files',        # File uploads
     'categories',   # Auction item categories
-   # 'admins',
+    'admins',
     'transactions',        
     'rest_framework',  # Django REST framework
     'rest_framework_simplejwt',  # SimpleJWT for authentication
@@ -71,12 +71,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'AuctionPlatform.wsgi.application'
 
 # Database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'onlineauctiondb',
+        'USER': 'onlineauctionuser',
+        'PASSWORD': 'securepassword',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
+
+
+
+AUTH_USER_MODEL = 'users.User'
 
 # settings.py for REST
 REST_FRAMEWORK = {
@@ -102,13 +118,34 @@ SIMPLE_JWT = {
 }
 
 # Email Settings
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+# EMAIL_PORT = config('EMAIL_PORT', cast=int, default=25)
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+# EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=True)
+# EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool, default=False)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST', default='localhost')
-EMAIL_PORT = config('EMAIL_PORT', cast=int, default=25)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=True)
-EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast=bool, default=False)
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'onlineauctionp@gmail.com'
+EMAIL_HOST_PASSWORD = ''  # App-specific password
+
+#reis cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  # Redis server URL
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+        'KEY_PREFIX': 'books',
+    }
+}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'  
+SESSION_CACHE_ALIAS = 'default'
 
 
 # Celery Configuration
@@ -154,4 +191,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Add other configurations if necessary
+#Mahabub
+# bossking1888f@gmail.com
+# incorrect2
 
